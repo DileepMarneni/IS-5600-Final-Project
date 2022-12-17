@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Search</h1>
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class ="form-group">
+      <legend class = "border-bottom mb-4"></legend>
+      <div class="form-group">
+          {{ form.title_field.label(class="form-control-label") }}
+          {% if form.title_field.errors %}
+            {{ form.title_field(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+                {% for error in form.title_field.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+          {% else %}
+            {{ form.title_field(class="form-control form-control-lg") }}
+          {% endif %}
+      </div>
+
+      <div class="form-group">
+          {{ form.author_field.label(class="form-control-label") }}
+
+          {% if form.author_field.errors %}
+            {{ form.author_field(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+                {% for error in form.author_field.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+          {% else %}
+            {{ form.author_field(class="form-control form-control-lg") }}
+          {% endif %}
+      </div>       
+
+    </fieldset>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-outline-info")}}
+    </div>
+  </form>
+
+{% for b in books %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{{ url_for('book', book_isbn=b.ISBN) }}">{{ b.title }}</a></h2>
+              {% for a in b.authors %}
+                    <p class="article-content">{{ a.fname }} {{ a.lname }}</p>
+              {% endfor %}
+              {% if b.publisher %}
+              <p class="article-content">{{ b.publisher }}</p>
+              {% endif %}
+              {% if b.language %}
+              <p class="article-content">{{ b.language.upper() }}</p>
+              {% endif %}
+              {% if b.date %}
+              <p class="article-content">{{ b.date.date() }}</p>
+              {% endif %}
+              <p class="article-content">Stock: {{ b.stock }}</p>
+
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
