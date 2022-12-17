@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<article class="media content-section">
+    <img class="rounded-circle account-img" src="{{ image_file }}">
+          <div class="media-body">
+            <h2><a class="article-title" href="#">{{ b.title }}</a></h2>
+              {% for a in b.authors %}
+                    <p class="article-content">{{ a.fname }} {{ a.lname }}</p>
+              {% endfor %}
+              {% if b.publisher %}
+              <p class="article-content">{{ b.publisher }}</p>
+              {% endif %}
+              {% if b.language %}
+              <p class="article-content">{{ b.language.upper() }}</p>
+              {% endif %}
+              {% if b.date %}
+              <p class="article-content">{{ b.date.date() }}</p>
+              {% endif %}
+              <p class="article-content">Price: ${{ c.cost }}</p>
+              <p class="article-content">Stock: {{ b.stock }}</p>
+          </div>
+</article>
+
+<h2>  Order:</h2>
+
+<article class="media content-section">
+    <div class="media-body">
+<form method="POST" action="">
+    {{ form_order.hidden_tag() }}
+    <fieldset class ="form-group">
+      <div class="form-group">
+          {{ form_order.quantity_field.label(class="form-control-label") }}
+          {{ form_order.quantity_field(class="form-control form-control-lg") }}
+      </div>
+    </fieldset>
+    <div class="form-group">
+      {{ form_order.submit(class="btn btn-outline-info")}}
+    </div>
+  </form>
+        </div>
+</article>
+
+<h2>  Review:</h2>
+<article class="media content-section">
+    <div class="media-body">
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class ="form-group">
+      <div class="form-group">
+          {{ form.rate_score_field.label(class="form-control-label") }}
+          {{ form.rate_score_field(class="form-control form-control-lg") }}
+      </div>
+
+        <div class="form-group">
+            {{ form.rate_comment_field.label(class="form-control-label") }}
+            {{ form.rate_comment_field(class="form-control form-control-lg") }}
+        </div>
+
+    </fieldset>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-outline-info")}}
+    </div>
+  </form>
+        </div>
+</article>
+
+{% endblock content %}
